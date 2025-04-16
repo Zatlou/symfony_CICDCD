@@ -7,6 +7,7 @@ pipeline {
         stage("Continuous Integration / Intégration Continue") {
             steps {
                 git branch: "main", url: "https://github.com/fredericBui/symfony_CICDCD"
+                sh "composer install"
             }
         }
         stage("Continuous Delivery / Livraison Continue") {
