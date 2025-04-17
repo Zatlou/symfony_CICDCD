@@ -1,5 +1,6 @@
 # symfony_CICDCD
 
+## Deploy localy
 Install the dependances
 ```
 composer install
@@ -15,6 +16,8 @@ Try locally
 ```
 symfony serve
 ```
+
+## Deploy with Docker
 
 If needed deploy a myslq container
 ```
@@ -39,10 +42,7 @@ docker build . -t symfony-cicdcd
 docker run --name symfony_cicdcd_container -p 8080:80 symfony-cicdcd
 ```
 
-CICDCD in Docker environment
-
-Require :
-- Docker Engine instal
+## Deploy with Jenkins
 
 If not already done start an instance of jenkins_master
 ```
