@@ -5,9 +5,32 @@ Install the dependances
 composer install
 ```
 
+Create the database and make the migrations
+```
+symfony console doctrine:database:create
+symfony console doctrine:migration:migrate
+```
+
 Try locally
 ```
 symfony serve
+```
+
+If needed deploy a myslq container
+```
+docker run --name symfony-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql
+```
+
+Get the IP adress of mysql container
+```
+docker inspect symfony-mysql
+```
+
+Change the connection string in the .env line 27 with the IP adress of mysql container
+Create database in mysql container and make the migration
+```
+symfony console doctrine:database:create
+symfony console doctrine:migration:migrate
 ```
 
 Build the image and deploy as container
