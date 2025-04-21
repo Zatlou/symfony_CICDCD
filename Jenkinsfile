@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'composer-docker' }
+    agent any
 
 
     environment {
