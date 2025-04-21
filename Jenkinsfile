@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'composer-docker' // ✅ bien dans la section agent
+        label 'composer-docker'
     }
 
     environment {
@@ -16,12 +16,13 @@ pipeline {
             }
         }
 
-        stage("Docker build & push") {
+        stage('Docker build & push') {
             steps {
-                sh "docker build . -t ${DOCKERHUB_USERNAME}/symfony_cicdcd"
-                sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
-                sh "docker push ${DOCKERHUB_USERNAME}/symfony_cicdcd"
+                sh "docker build . -t ${DOCKER_CREDS_USR}/symfony_cicdcd:latest"
+                sh "echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin"
+                sh "docker push ${DOCKER_CREDS_USR}/symfony_cicdcd:latest"
             }
         }
+
     }
 }
