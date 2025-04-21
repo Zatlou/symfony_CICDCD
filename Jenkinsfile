@@ -1,26 +1,26 @@
 pipeline {
-    label 'composer-docker'
-
+    agent {
+        label 'composer-docker' // ✅ bien dans la section agent
+    }
 
     environment {
-        DOCKER_CREDS = credentials('d70d768c-9bea-4862-ab7b-3f213eafb380')
+        DOCKERHUB_USERNAME = "zatlou"
+        DOCKERHUB_PASSWORD = credentials('d70d768c-9bea-4862-ab7b-3f213eafb380')
     }
 
     stages {
-        stage('CI') {
+        stage("CI") {
             steps {
-                git url: 'https://github.com/Zatlou/symfony_CICDCD.git', branch: 'main'
-                sh 'composer install --no-interaction --prefer-dist'
+                git branch: "main", url: "https://github.com/Zatlou/symfony_CICDCD"
+                sh "composer install --no-interaction --prefer-dist"
             }
         }
 
-        stage('Docker build & push') {
+        stage("Docker build & push") {
             steps {
-                sh """
-                   docker build . -t ${DOCKER_CREDS_USR}/symfony_cicdcd:latest
-                   echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin
-                   docker push ${DOCKER_CREDS_USR}/symfony_cicdcd:latest
-                """
+                sh "docker build . -t ${DOCKERHUB_USERNAME}/symfony_cicdcd"
+                sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                sh "docker push ${DOCKERHUB_USERNAME}/symfony_cicdcd"
             }
         }
     }
